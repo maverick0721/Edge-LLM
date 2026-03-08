@@ -10,3 +10,6 @@ __pycache__/*
 .DS_Store
 .zip
 *.tar.gz
+edge_model.pt
+tokenizer/vocab.json
+tokenizer/merges.txt
