@@ -1,3 +1,4 @@
+#sst - Speech-to-Text module using Vosk
 import json
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
