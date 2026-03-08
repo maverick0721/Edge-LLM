@@ -1,0 +1,12 @@
+torch
+triton
+fastapi
+uvicorn
+websockets
+transformers
+sentence-transformers
+faiss-cpu
+sounddevice
+vosk
+pyttsx3
+numpy
