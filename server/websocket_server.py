@@ -17,6 +17,9 @@ tokenizer = Tokenizer()
 
 engine = BatchingEngine(model)
 
+@app.get("/")
+def root():
+    return {"status": "EdgeLLM server is running!"}
 
 @app.websocket("/chat")
 async def chat(ws: WebSocket):
