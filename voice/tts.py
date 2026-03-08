@@ -1,6 +1,5 @@
 import pyttsx3
 
-
 class Speaker:
 
     def __init__(self):
