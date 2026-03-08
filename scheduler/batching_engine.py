@@ -1,9 +1,4 @@
-class Request:
-
-    def __init__(self, tokens):
-        self.tokens = tokens
-        self.finished = False
-
+import torch
 
 class BatchingEngine:
 
@@ -18,12 +13,31 @@ class BatchingEngine:
 
     def step(self):
 
-        batch = [r.tokens for r in self.requests]
+        if not self.requests:
+            return []
 
-        logits = self.model(batch)
+        max_len = max(len(r.tokens) for r in self.requests)
+
+        batch = []
+
+        for r in self.requests:
+
+            padded = r.tokens + [0]*(max_len-len(r.tokens))
+
+            batch.append(padded)
+
+        input_ids = torch.tensor(batch)
+
+        logits = self.model(input_ids)
+
+        outputs = []
 
         for i, r in enumerate(self.requests):
 
-            token = logits[i][-1].argmax()
+            next_token = logits[i][-1].argmax()
 
-            r.tokens.append(int(token))
+            r.tokens.append(int(next_token))
+
+            outputs.append(int(next_token))
+
+        return outputs
