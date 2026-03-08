@@ -13,3 +13,4 @@ __pycache__/*
 edge_model.pt
 tokenizer/vocab.json
 tokenizer/merges.txt
+edge_model.pt
