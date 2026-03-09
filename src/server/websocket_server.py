@@ -1,92 +1,75 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-import asyncio
-import torch
+import httpx
 import json
-
-from model.model import EdgeLLM
-from runtime.config import ModelConfig
-from runtime.tokenizer import Tokenizer
-from scheduler.request import Request
-from scheduler.batching_engine import BatchingEngine
-from runtime.device import get_device
-from transformers import AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer, BitsAndBytesConfig
-from threading import Thread
 
 app = FastAPI()
 
-model_name = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+LLAMA_SERVER_URL = "http://127.0.0.1:8080/completion"
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-# enable 8-bit quantization for edge devices
-bnb_config = BitsAndBytesConfig(
-    load_in_8bit=True
-)
-
-model = AutoModelForCausalLM.from_pretrained(
-    model_name,
-    quantization_config=bnb_config,
-    device_map="auto"
-)
-
-model.eval()
-
-engine = BatchingEngine(model)
-
-# store conversations per chat
-chat_sessions = {}
 
 @app.get("/")
 async def root():
-    return {"message": "WebSocket server is running"}
+    return {"status": "edge LLM server running"}
+
+
+async def stream_generation(prompt, websocket):
+
+    async with httpx.AsyncClient(timeout=None) as client:
+
+        async with client.stream(
+            "POST",
+            LLAMA_SERVER_URL,
+            json={
+                "prompt": prompt,
+                "n_predict": 200,
+                "temperature": 0.7,
+                "stream": True
+            },
+        ) as response:
+
+            async for line in response.aiter_lines():
+
+                if not line:
+                    continue
+
+                if line.startswith("data:"):
+
+                    data = line.replace("data:", "").strip()
+
+                    if data == "[DONE]":
+                        break
+
+                    try:
+                        token = json.loads(data)["content"]
+                        await websocket.send_text(token)
+
+                    except Exception:
+                        pass
+
 
 @app.websocket("/chat")
 async def chat(ws: WebSocket):
+
     await ws.accept()
 
-    # memory per client
-    conversation = []
+    try:
 
-    try:  # <-- wrap the loop in try
         while True:
-            user_message = await ws.receive_text()
 
-            conversation.append({"role": "user", "content": user_message})
+            data = await ws.receive_json()
 
-            # build prompt using chat template
-            prompt = tokenizer.apply_chat_template(
-                conversation,
-                tokenize=False,
-                add_generation_prompt=True
-            )
+            user_message = data["message"]
 
-            inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+            prompt = f"""
+<|system|>
+You are a helpful AI assistant.
+<|user|>
+{user_message}
+<|assistant|>
+"""
 
-            streamer = TextIteratorStreamer(
-                tokenizer,
-                skip_prompt=True,
-                skip_special_tokens=True
-            )
-
-            generation_kwargs = dict(
-                **inputs,
-                streamer=streamer,
-                max_new_tokens=200,
-                do_sample=True,
-                temperature=0.7,
-                top_p=0.9
-            )
-
-            thread = Thread(target=model.generate, kwargs=generation_kwargs)
-            thread.start()
-
-            assistant_message = ""
-
-            for new_text in streamer:
-                assistant_message += new_text
-                await ws.send_text(new_text)
-
-            conversation.append({"role": "assistant", "content": assistant_message})
+            await stream_generation(prompt, ws)
 
     except WebSocketDisconnect:
+
         print("Client disconnected")

@@ -54,9 +54,11 @@ export default function ChatLayout(){
 
   function send(text){
 
-    if(!text.trim()) return
+    if(!socket) return
 
-    socket.send(text)
+    socket.send(JSON.stringify({
+      message: text
+    }))
 
     setMessages(prev => [
       ...prev,

@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+
+  llama:
+    image: ghcr.io/ggerganov/llama.cpp:server
+    command: >
+      -m /models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+      --port 8080
+    volumes:
+      - ./models:/models
+    ports:
+      - "8080:8080"
+
+  backend:
+    build: .
+    command: python -m cli.cli
+    ports:
+      - "8000:8000"
+    depends_on:
+      - llama
+
+  ui:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./ui/chat-app:/app
+    command: sh -c "npm install && npm run dev -- --host"
+    ports:
+      - "5173:5173"
