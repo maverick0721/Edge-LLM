@@ -7,6 +7,7 @@ from model.model import EdgeLLM
 from runtime.config import ModelConfig
 from training.dataset import TextDataset
 from tokenizers import ByteLevelBPETokenizer
+from runtime.device import get_device
 
 
 def train():
@@ -31,7 +32,9 @@ def train():
         print("Tokenizer trained and saved.")
 
     config = ModelConfig(vocab_size=tokenizer.get_vocab_size())
-    model = EdgeLLM(config)
+    device = get_device()
+
+    model = EdgeLLM(config).to(device)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)

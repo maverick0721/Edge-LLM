@@ -6,4 +6,6 @@ COPY . /app
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "-m", "cli.cli"]
+EXPOSE 8000
+
+CMD ["python","cli/cli.py"]

@@ -5,12 +5,15 @@ from runtime.tokenizer import Tokenizer
 from model.model import EdgeLLM
 from runtime.config import ModelConfig
 from rag.rag_pipeline import RAGPipeline
+from runtime.device import get_device
 
 app = FastAPI()
 
 tokenizer = Tokenizer()
 
-model = EdgeLLM(ModelConfig())
+device = get_device()
+
+model = EdgeLLM(ModelConfig()).to(device)
 
 rag = RAGPipeline()
 
@@ -27,7 +30,7 @@ def generate(prompt: Prompt):
 
     import torch
 
-    input_ids = torch.tensor([tokens])
+    input_ids = torch.tensor([tokens]).to(device)
 
     logits = model(input_ids)
 

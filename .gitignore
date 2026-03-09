@@ -13,3 +13,12 @@ __pycache__/*
 *tokenizer/vocab.json
 *tokenizer/merges.txt
 *edge_model.pt
+.env
+edge_llm.egg-info
+dist
+build
+*.egg-info
+*.egg
+src/llama.cpp
+*.bin
+

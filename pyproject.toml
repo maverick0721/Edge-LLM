@@ -1,0 +1,23 @@
+[project]
+name = "edge-llm"
+version = "0.1.0"
+description = "Edge optimized local LLM runtime"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "fastapi",
+    "uvicorn",
+    "transformers",
+    "sentence-transformers",
+    "faiss-cpu"
+]
+
+# Tell setuptools to look for packages in src/
+[tool.setuptools]
+packages = { find = { where = ["src"] } }
+package-dir = {"" = "src"}
+include-package-data = true
+
+[project.scripts]
+edge-llm = "cli.cli:run_server"
