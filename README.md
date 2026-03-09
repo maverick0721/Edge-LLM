@@ -1,4 +1,5 @@
 # Edge-LLM
+
 ### Local AI Chat System for Edge Devices
 
 ![Edge AI](https://img.shields.io/badge/AI-Edge%20Inference-blue)
@@ -14,12 +15,12 @@ It provides a **ChatGPT-style streaming chat interface** while running inference
 
 The system demonstrates a **production-style architecture for local AI systems** including:
 
-- Local LLM inference  
-- Streaming token responses  
-- WebSocket backend  
-- Chat UI  
-- Docker deployment  
-- Edge hardware compatibility  
+- Local LLM inference
+- Streaming token responses
+- WebSocket backend
+- Chat UI
+- Docker deployment
+- Edge hardware compatibility
 
 ---
 
@@ -32,8 +33,8 @@ User:
 Explain neural networks simply.
 
 Assistant:
-A neural network is a computer system inspired by the human brain. 
-It learns patterns from data using layers of connected nodes and can 
+A neural network is a computer system inspired by the human brain.
+It learns patterns from data using layers of connected nodes and can
 recognize images, understand text, or make predictions.
 ```
 
@@ -131,31 +132,120 @@ UI-->>User: Render response
 # Repository Structure
 
 ```
-Edge-LLM
-│
-├── docker-compose.yml
+Edge-LLM/
+├── README.md
+├── dataset.txt
 ├── install.sh
+├── pyproject.toml
+├── requirements.txt
 │
-├── models
-│   └── tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
 │
-├── server
-│   └── websocket_server.py
+├── mobile/
+│   ├── android/
+│   │   └── MainActivity.kt
+│   └── ios/
+│       └── ViewController.swift
 │
-├── ui
-│   └── chat-app
-│       ├── src
-│       ├── components
-│       └── package.json
+├── src/
+│   ├── benchmarks/
+│   │   ├── benchmark_latency.py
+│   │   ├── benchmark_memory.py
+│   │   └── benchmark_tokens.py
+│   │
+│   ├── cli/
+│   │   ├── __init__.py
+│   │   └── cli.py
+│   │
+│   ├── convert/
+│   │   ├── __init__.py
+│   │   └── hf_loader.py
+│   │
+│   ├── generation/
+│   │   ├── __init__.py
+│   │   ├── sampler.py
+│   │   └── speculative.py
+│   │
+│   ├── kernels/
+│   │   ├── __init__.py
+│   │   ├── flash_attention.py
+│   │   └── int4_quant.py
+│   │
+│   ├── model/
+│   │   ├── __init__.py
+│   │   ├── model.py
+│   │   └── transformer.py
+│   │
+│   ├── rag/
+│   │   ├── __init__.py
+│   │   ├── embedder.py
+│   │   ├── ingest.py
+│   │   ├── rag_pipeline.py
+│   │   └── vector_store.py
+│   │
+│   ├── runtime/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── device.py
+│   │   ├── kv_cache.py
+│   │   ├── paged_allocator.py
+│   │   ├── rope.py
+│   │   └── tokenizer.py
+│   │
+│   ├── scheduler/
+│   │   ├── __init__.py
+│   │   ├── batching_engine.py
+│   │   ├── request.py
+│   │   └── scheduler.py
+│   │
+│   ├── server/
+│   │   ├── __init__.py
+│   │   ├── api_server.py
+│   │   └── websocket_server.py
+│   │
+│   ├── tokenizer/
+│   │   ├── merges.txt
+│   │   └── vocab.json
+│   │
+│   ├── training/
+│   │   ├── __init__.py
+│   │   ├── dataset.py
+│   │   ├── tokenizer_train.py
+│   │   └── trainer.py
+│   │
+│   └── voice/
+│       ├── __init__.py
+│       ├── stt.py
+│       ├── tts.py
+│       └── voice_chat.py
 │
-├── android
-│   └── MainActivity.kt
+├── ui/
+│   └── chat-app/
+│       ├── index.html
+│       ├── package.json
+│       ├── postcss.config.js
+│       ├── tailwind.config.js
+│       ├── vite.config.js
+│       ├── eslint.config.js
+│       ├── public/
+│       │   └── vite.svg
+│       └── src/
+│           ├── App.jsx
+│           ├── main.jsx
+│           ├── index.css
+│           ├── assets/
+│           │   └── react.svg
+│           └── components/
+│               ├── ChatInput.jsx
+│               ├── ChatLayout.jsx
+│               ├── ChatMessage.jsx
+│               ├── CodeBlock.jsx
+│               ├── Sidebar.jsx
+│               └── TypingIndicator.jsx
 │
-├── ios
-│   └── ViewController.swift
-│
-└── src
-    └── llama.cpp
+└── vosk-model-small-en-us-0.15/   # Speech recognition model (downloaded)
 ```
 
 ---
@@ -232,18 +322,18 @@ http://localhost:5173
 
 Example benchmark using **TinyLlama Q4_K_M**.
 
-| Hardware | Tokens/sec | Latency |
-|--------|-----------|--------|
-Laptop CPU (Intel i7) | 22-30 | ~40 ms |
-Mini PC Edge Server | 25-35 | ~35 ms |
-Jetson Orin | 30-45 | ~25 ms |
-Workstation CPU | 35-50 | ~20 ms |
+| Hardware              | Tokens/sec | Latency |
+| --------------------- | ---------- | ------- |
+| Laptop CPU (Intel i7) | 22-30      | ~40 ms  |
+| Mini PC Edge Server   | 25-35      | ~35 ms  |
+| Jetson Orin           | 30-45      | ~25 ms  |
+| Workstation CPU       | 35-50      | ~20 ms  |
 
 Performance depends on:
 
-- CPU architecture  
-- memory bandwidth  
-- model quantization  
+- CPU architecture
+- memory bandwidth
+- model quantization
 
 ---
 
@@ -295,11 +385,11 @@ python benchmarks/benchmark_llm.py
 
 Edge-LLM can run on:
 
-- laptops  
-- mini PC edge servers  
-- Jetson boards  
-- workstation servers  
-- cloud VMs  
+- laptops
+- mini PC edge servers
+- Jetson boards
+- workstation servers
+- cloud VMs
 
 Mobile devices act as **clients connecting to the edge server**.
 
@@ -331,13 +421,13 @@ ws://<EDGE_DEVICE_IP>:8000/chat
 
 Core technologies used:
 
-- Python  
-- FastAPI  
-- WebSockets  
-- React  
-- llama.cpp  
-- Docker  
-- GGUF quantized models  
+- Python
+- FastAPI
+- WebSockets
+- React
+- llama.cpp
+- Docker
+- GGUF quantized models
 
 ---
 
@@ -347,9 +437,9 @@ Most AI systems run entirely in the cloud.
 
 Edge-LLM demonstrates that:
 
-- LLMs can run locally  
-- AI chat interfaces can be built on edge hardware  
-- privacy-preserving AI systems are feasible  
+- LLMs can run locally
+- AI chat interfaces can be built on edge hardware
+- privacy-preserving AI systems are feasible
 
 ---
 
@@ -357,11 +447,11 @@ Edge-LLM demonstrates that:
 
 Future improvements:
 
-- Retrieval-Augmented Generation (RAG)  
-- multi-model switching  
-- vector database integration  
-- continuous batching  
-- hardware auto-optimization  
+- Retrieval-Augmented Generation (RAG)
+- multi-model switching
+- vector database integration
+- continuous batching
+- hardware auto-optimization
 
 ---
 
