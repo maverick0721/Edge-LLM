@@ -10,3 +10,5 @@ sounddevice
 vosk
 pyttsx3
 numpy
+accelerate
+bitsandbytes
