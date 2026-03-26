@@ -22,3 +22,11 @@ build
 src/llama.cpp
 *.bin
 
+# Local runtime artifacts and large models
+rag_logs.jsonl
+models/*.gguf
+models/*.safetensors
+models/*.pt
+models/*.bin
+vosk-model*
+
