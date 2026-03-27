@@ -15,10 +15,9 @@ export default function ChatInput({ send }){
 
   return(
 
+
     <div className="border-t border-gray-700 p-4">
-
         <div className="max-w-3xl mx-auto flex">
-
             <input
               className="flex-1 bg-[#40414f] p-3 rounded-l-lg outline-none"
               placeholder="Send a message..."
@@ -30,16 +29,13 @@ export default function ChatInput({ send }){
                 }
               }}
             />
-
             <button
               onClick={submit}
               className="bg-green-600 px-4 rounded-r-lg"
             >
               Send
             </button>
-
         </div>
-
     </div>
 
   )

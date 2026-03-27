@@ -1,7 +1,14 @@
 # sst - Speech-to-Text module using Vosk
 import json
-import sounddevice as sd
-from vosk import Model, KaldiRecognizer
+
+try:
+    import sounddevice as sd
+    from vosk import Model, KaldiRecognizer
+except ImportError as exc:
+    raise RuntimeError(
+        "Voice support requires optional dependencies. "
+        "Install with `pip install -r requirements-high-quality.txt`."
+    ) from exc
 
 class SpeechRecognizer:
 

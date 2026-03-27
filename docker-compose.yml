@@ -1,27 +1,38 @@
-version: "3.9"
-
 services:
   llama:
-    image: ghcr.io/ggerganov/llama.cpp:server
+    image: ghcr.io/ggml-org/llama.cpp:server
     command: >
-      -m /models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
+      -m ${EDGE_LLM_MODEL_PATH:-/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf}
       --port 8080
+      --host 0.0.0.0
+      -c ${EDGE_LLM_CTX_SIZE:-2048}
+      -t ${EDGE_LLM_THREADS:-4}
     volumes:
       - ./models:/models
     ports:
-      - "8080:8080"
+      - "${EDGE_LLM_LLAMA_PORT:-8080}:8080"
     restart: unless-stopped
 
-  backend:
+  app:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    command: python -m cli.cli
+      args:
+        EDGE_LLM_PROFILE: ${EDGE_LLM_PROFILE:-lite}
+        EDGE_LLM_REQUIREMENTS: ${EDGE_LLM_REQUIREMENTS_FILE:-requirements.txt}
     environment:
       PYTHONPATH: /app/src
+      EDGE_LLM_UI_DIST: /app/ui-dist
+      EDGE_LLM_PROFILE: ${EDGE_LLM_PROFILE:-lite}
+      EDGE_LLM_MODEL_FILE: ${EDGE_LLM_MODEL_FILE:-tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf}
+      EDGE_LLM_N_PREDICT: ${EDGE_LLM_N_PREDICT:-160}
+      EDGE_LLM_TEMPERATURE: ${EDGE_LLM_TEMPERATURE:-0.7}
+      LLAMA_HEALTH_TIMEOUT_SECONDS: ${LLAMA_HEALTH_TIMEOUT_SECONDS:-3}
+      LLAMA_REQUEST_TIMEOUT_SECONDS: ${LLAMA_REQUEST_TIMEOUT_SECONDS:-15}
+      LLAMA_STREAM_TIMEOUT_SECONDS: ${LLAMA_STREAM_TIMEOUT_SECONDS:-60}
       LLAMA_SERVER_URL: http://llama:8080/completion
     ports:
-      - "8000:8000"
+      - "${EDGE_LLM_PORT:-8000}:8000"
     depends_on:
       llama:
         condition: service_started
@@ -33,33 +44,10 @@ services:
         - |
           import json, urllib.request
           payload = json.load(urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3))
-          raise SystemExit(0 if payload.get('status') in {'ok', 'degraded'} else 1)
+          ready = payload.get('status') in {'ok', 'degraded'} and payload.get('ui_served') is True
+          raise SystemExit(0 if ready else 1)
       interval: 15s
       timeout: 5s
       retries: 5
-      start_period: 15s
-    restart: unless-stopped
-
-  ui:
-    image: node:18
-    working_dir: /app
-    volumes:
-      - ./ui/chat-app:/app
-    command: sh -c "npm install && npm run dev -- --host"
-    ports:
-      - "5173:5173"
-    depends_on:
-      backend:
-        condition: service_healthy
-    healthcheck:
-      test:
-        - CMD
-        - node
-        - -e
-        - |
-          fetch('http://127.0.0.1:5173').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
+      start_period: 20s
     restart: unless-stopped

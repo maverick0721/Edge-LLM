@@ -1,5 +1,12 @@
-import pyttsx3
 import threading
+
+try:
+    import pyttsx3
+except ImportError as exc:
+    raise RuntimeError(
+        "Voice support requires optional dependencies. "
+        "Install with `pip install -r requirements-high-quality.txt`."
+    ) from exc
 
 class Speaker:
     def __init__(self):

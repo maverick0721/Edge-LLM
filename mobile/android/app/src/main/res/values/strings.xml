@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Edge LLM Android</string>
+    <string name="title_text">Edge-LLM Local Android</string>
+    <string name="default_status">Checking on-device model availability…</string>
+    <string name="default_transcript">Edge-LLM is preparing for fully local Android chat.</string>
+    <string name="prepare_button">Prepare Model</string>
+    <string name="reset_button">Reset Session</string>
+    <string name="send_button">Send</string>
+    <string name="input_hint">Ask something locally on this Android device</string>
+</resources>

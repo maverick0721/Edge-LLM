@@ -24,6 +24,8 @@ class RAGPipeline:
     def build_prompt(self, query):
 
         docs = self.retrieve(query)
+        if not docs:
+            return query
 
         context = "\n".join(docs)
 

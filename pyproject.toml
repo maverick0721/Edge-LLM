@@ -7,18 +7,37 @@ requires-python = ">=3.10"
 dependencies = [
     "fastapi==0.135.1",
     "httpx==0.28.1",
-    "numpy==1.26.4",
     "pydantic==2.12.5",
-    "psutil==7.2.2",
-    "pyttsx3==2.99",
+    "uvicorn==0.41.0",
+    "websockets==16.0",
+]
+
+[project.optional-dependencies]
+standard = [
+    "numpy==1.26.4",
+    "faiss-cpu==1.13.2",
     "sentence-transformers==5.2.3",
-    "sounddevice==0.5.5",
     "tokenizers==0.22.2",
     "torch==2.6.0",
     "transformers==4.57.6",
-    "uvicorn==0.41.0",
+    "psutil==7.2.2",
+]
+voice = [
+    "pyttsx3==2.99",
+    "sounddevice==0.5.5",
+    "vosk==0.3.44",
+]
+high-quality = [
+    "numpy==1.26.4",
     "faiss-cpu==1.13.2",
-    "vosk==0.3.45",
+    "sentence-transformers==5.2.3",
+    "tokenizers==0.22.2",
+    "torch==2.6.0",
+    "transformers==4.57.6",
+    "psutil==7.2.2",
+    "pyttsx3==2.99",
+    "sounddevice==0.5.5",
+    "vosk==0.3.44",
 ]
 
 [tool.setuptools]

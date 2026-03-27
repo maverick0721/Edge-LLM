@@ -2,32 +2,46 @@ import { useState, useEffect, useRef } from "react"
 import ChatMessage from "./ChatMessage"
 import ChatInput from "./ChatInput"
 
+const EMPTY_MESSAGES = []
+
 function getWebSocketUrl(){
   if(import.meta.env.VITE_WS_URL){
     return import.meta.env.VITE_WS_URL
   }
 
   const protocol = window.location.protocol === "https:" ? "wss:" : "ws:"
-  return protocol + "//" + window.location.hostname + ":8000/chat"
+  const explicitPort = import.meta.env.VITE_EDGE_LLM_PORT
+
+  if(explicitPort){
+    return protocol + "//" + window.location.hostname + ":" + explicitPort + "/chat"
+  }
+
+  return protocol + "//" + window.location.host + "/chat"
 }
 
 export default function ChatLayout({ chat, updateMessages, newChat }){
 
-  const [socket,setSocket] = useState(null)
   const [connectionError,setConnectionError] = useState("")
 
   const bottomRef = useRef(null)
   const chatRef = useRef(chat)
+  const socketRef = useRef(null)
+  const updateMessagesRef = useRef(updateMessages)
   const pendingChatIdRef = useRef(null)
-  const messages = chat?.messages ?? []
+  const messages = chat?.messages ?? EMPTY_MESSAGES
 
   useEffect(()=>{
     chatRef.current = chat
   },[chat])
 
   useEffect(()=>{
+    updateMessagesRef.current = updateMessages
+  },[updateMessages])
+
+  useEffect(()=>{
 
     const ws = new WebSocket(getWebSocketUrl())
+    socketRef.current = ws
 
     ws.onopen = () => {
       setConnectionError("")
@@ -66,7 +80,7 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
         }
       }
 
-      updateMessages(nextMessages, targetChatId)
+      updateMessagesRef.current(nextMessages, targetChatId)
     }
 
     ws.onerror = () => {
@@ -78,9 +92,10 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
       pendingChatIdRef.current = null
     }
 
-    setSocket(ws)
-
-    return () => ws.close()
+    return () => {
+      socketRef.current = null
+      ws.close()
+    }
 
   },[])
 
@@ -90,9 +105,13 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
 
   function send(text){
 
+    const socket = socketRef.current
     const socketOpen = socket === null ? false : socket.readyState === WebSocket.OPEN
 
-    if(socketOpen === false) return
+    if(socketOpen === false){
+      setConnectionError("Unable to connect to the backend WebSocket server.")
+      return
+    }
 
     const activeChat = chat ?? newChat()
     const targetChatId = activeChat.id
@@ -103,7 +122,7 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
     ]
 
     pendingChatIdRef.current = targetChatId
-    updateMessages(nextMessages, targetChatId)
+    updateMessagesRef.current(nextMessages, targetChatId)
     setConnectionError("")
 
     socket.send(JSON.stringify({
@@ -111,6 +130,7 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
     }))
 
   }
+
 
   return(
 

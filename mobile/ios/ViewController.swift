@@ -1,24 +1,27 @@
+import SwiftUI
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        embedRootView()
+    }
 
-    func sendPrompt(text:String){
+    private func embedRootView() {
+        let hostingController = UIHostingController(rootView: EdgeLLMOnDeviceChatView())
 
-        let url = URL(string:"http://localhost:8000/generate")!
+        addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(hostingController.view)
 
-        var req = URLRequest(url:url)
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
 
-        req.httpMethod = "POST"
-
-        req.httpBody = "{\"text\":\"\(text)\"}".data(using:.utf8)
-
-        URLSession.shared.dataTask(with:req){data,res,error in
-
-            if let d = data{
-                let result = String(data:d,encoding:.utf8)
-                print(result!)
-            }
-
-        }.resume()
+        hostingController.didMove(toParent: self)
     }
 }

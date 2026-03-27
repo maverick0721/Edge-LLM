@@ -1,0 +1,14 @@
+.git
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+node_modules
+ui/chat-app/node_modules
+ui/chat-app/dist
+build
+dist
+models
+vosk-model-small-en-us-0.15

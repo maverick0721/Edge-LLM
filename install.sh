@@ -1,37 +1,53 @@
-#!/bin/bash
+#!/bin/sh
 
-set -e
+set -eu
 
-echo "Installing Edge LLM System..."
+ROOT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
+PROFILE=${1:-${EDGE_LLM_INSTALL_PROFILE:-lite}}
 
-echo "Updating system..."
-sudo apt update
+case "$PROFILE" in
+  lite)
+    REQUIREMENTS_FILE="requirements.txt"
+    ;;
+  standard)
+    REQUIREMENTS_FILE="requirements-standard.txt"
+    ;;
+  high-quality)
+    REQUIREMENTS_FILE="requirements-high-quality.txt"
+    ;;
+  *)
+    echo "Unknown install profile: $PROFILE"
+    echo "Use one of: lite, standard, high-quality"
+    exit 1
+    ;;
+esac
 
-echo "Installing dependencies..."
-sudo apt install -y docker.io docker-compose git nodejs npm python3-pip
+PYTHON_BIN=${PYTHON_BIN:-python3}
+VENV_DIR="$ROOT_DIR/.venv"
+VENV_PYTHON="$VENV_DIR/bin/python"
 
-echo "Enabling Docker..."
-sudo systemctl enable docker
-sudo systemctl start docker
+echo "Setting up Edge-LLM ($PROFILE profile)..."
 
-echo "Installing Python packages..."
-python3 -m pip install --upgrade pip
-python3 -m pip install fastapi uvicorn httpx
+if [ ! -d "$VENV_DIR" ]; then
+  "$PYTHON_BIN" -m venv "$VENV_DIR"
+fi
 
-echo "Installing UI dependencies..."
-cd ui/chat-app
-npm install
-cd ../../
+"$VENV_PYTHON" -m pip install --upgrade pip
+"$VENV_PYTHON" -m pip install -r "$ROOT_DIR/$REQUIREMENTS_FILE"
 
-mkdir -p models
+mkdir -p "$ROOT_DIR/models"
 
-echo "Setup complete!"
+(
+  cd "$ROOT_DIR/ui/chat-app"
+  npm install
+  npm run build
+)
+
 echo ""
+echo "Setup complete."
+echo "Installed Python tier: $PROFILE"
+echo "Built production UI into: ui/chat-app/dist"
 echo "Place your GGUF model in: ./models"
-echo "Expected filename: tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
 echo ""
-echo "To start the system run:"
-echo "docker compose up"
-echo ""
-echo "Then open:"
-echo "http://localhost:5173"
+echo "Recommended start command:"
+echo "docker compose --env-file profiles/$PROFILE.env up --build"

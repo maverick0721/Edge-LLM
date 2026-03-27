@@ -1,0 +1,363 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		520D9FCA2FBB9192AAAD2131 /* OnDeviceChatEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691D3CD8CF0424E3914537B5 /* OnDeviceChatEngine.swift */; };
+		586C2E08AA322CB3CA06EFAA /* EdgeLLMiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE7F784EEE626555F2314A /* EdgeLLMiOSApp.swift */; };
+		5C2D6AF14F7BFFE6C7B7B79F /* EdgeLLMOnDeviceChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B5B81FBD4589A6A77625D4 /* EdgeLLMOnDeviceChatViewModel.swift */; };
+		718BFCCA404062222E73D739 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61275B0065FFC950A42ABF28 /* ViewController.swift */; };
+		8A4FF569FE7295EFF4D71D7E /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B717204150CBEFEA15FEF2 /* ChatMessage.swift */; };
+		8CDD3622E404EE38F6429750 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3A1FB5137BCAD01313C368 /* Foundation.framework */; };
+		9099060B4525066A6F436C91 /* EdgeLLMOnDeviceChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA861F6D1A1095C4E0CE6C6 /* EdgeLLMOnDeviceChatView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0CFE7F784EEE626555F2314A /* EdgeLLMiOSApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EdgeLLMiOSApp.swift; sourceTree = "<group>"; };
+		0FD739530D4256243966F3E2 /* EdgeLLMiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = EdgeLLMiOS.app; path = EdgeLLMiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F3A1FB5137BCAD01313C368 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		56B717204150CBEFEA15FEF2 /* ChatMessage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		61275B0065FFC950A42ABF28 /* ViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		691D3CD8CF0424E3914537B5 /* OnDeviceChatEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OnDeviceChatEngine.swift; sourceTree = "<group>"; };
+		F2B5B81FBD4589A6A77625D4 /* EdgeLLMOnDeviceChatViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EdgeLLMOnDeviceChatViewModel.swift; sourceTree = "<group>"; };
+		FFA861F6D1A1095C4E0CE6C6 /* EdgeLLMOnDeviceChatView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EdgeLLMOnDeviceChatView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		967503C579C939F01138F833 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CDD3622E404EE38F6429750 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8D40302E0B90D820B20DC3CF /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				56B717204150CBEFEA15FEF2 /* ChatMessage.swift */,
+				0CFE7F784EEE626555F2314A /* EdgeLLMiOSApp.swift */,
+				FFA861F6D1A1095C4E0CE6C6 /* EdgeLLMOnDeviceChatView.swift */,
+				F2B5B81FBD4589A6A77625D4 /* EdgeLLMOnDeviceChatViewModel.swift */,
+				691D3CD8CF0424E3914537B5 /* OnDeviceChatEngine.swift */,
+				61275B0065FFC950A42ABF28 /* ViewController.swift */,
+			);
+			name = iOS;
+			path = .;
+			sourceTree = "<group>";
+		};
+		ADD92DD720C25AB4D41ABB77 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				1F3A1FB5137BCAD01313C368 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		C9A80FA649981F890BAA8D41 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADD92DD720C25AB4D41ABB77 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE9CC823ABA8C6BE32619B27 = {
+			isa = PBXGroup;
+			children = (
+				F766F4D0366F28FAE091D822 /* Products */,
+				C9A80FA649981F890BAA8D41 /* Frameworks */,
+				8D40302E0B90D820B20DC3CF /* iOS */,
+			);
+			sourceTree = "<group>";
+		};
+		F766F4D0366F28FAE091D822 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0FD739530D4256243966F3E2 /* EdgeLLMiOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		39DF3918D37241E87B208500 /* EdgeLLMiOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01D784241C6B33EB0DBD90F0 /* Build configuration list for PBXNativeTarget "EdgeLLMiOS" */;
+			buildPhases = (
+				C7F859E567891C6AA3C20C1E /* Sources */,
+				967503C579C939F01138F833 /* Frameworks */,
+				E1D6A938B25D34A8566D757A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EdgeLLMiOS;
+			productName = EdgeLLMiOS;
+			productReference = 0FD739530D4256243966F3E2 /* EdgeLLMiOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B10360E91870B92208A41DB7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2640;
+			};
+			buildConfigurationList = B0797FC7D3F64052935FEE4F /* Build configuration list for PBXProject "EdgeLLMiOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EE9CC823ABA8C6BE32619B27;
+			minimizedProjectReferenceProxies = 0;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F766F4D0366F28FAE091D822 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				39DF3918D37241E87B208500 /* EdgeLLMiOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E1D6A938B25D34A8566D757A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C7F859E567891C6AA3C20C1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A4FF569FE7295EFF4D71D7E /* ChatMessage.swift in Sources */,
+				586C2E08AA322CB3CA06EFAA /* EdgeLLMiOSApp.swift in Sources */,
+				9099060B4525066A6F436C91 /* EdgeLLMOnDeviceChatView.swift in Sources */,
+				5C2D6AF14F7BFFE6C7B7B79F /* EdgeLLMOnDeviceChatViewModel.swift in Sources */,
+				520D9FCA2FBB9192AAAD2131 /* OnDeviceChatEngine.swift in Sources */,
+				718BFCCA404062222E73D739 /* ViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		19E8156352A5F8D1EBFFED08 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Edge LLM";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Edge-LLM";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.edge.llm.ios;
+				PRODUCT_NAME = EdgeLLMiOS;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7D185FA9AA7A71B7888BFA32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8F0FA1A28BF3B9468010F39D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Edge LLM";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 Edge-LLM";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.edge.llm.ios;
+				PRODUCT_NAME = EdgeLLMiOS;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E598AF42ECD677057B5D003B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01D784241C6B33EB0DBD90F0 /* Build configuration list for PBXNativeTarget "EdgeLLMiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19E8156352A5F8D1EBFFED08 /* Release */,
+				8F0FA1A28BF3B9468010F39D /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B0797FC7D3F64052935FEE4F /* Build configuration list for PBXProject "EdgeLLMiOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E598AF42ECD677057B5D003B /* Debug */,
+				7D185FA9AA7A71B7888BFA32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B10360E91870B92208A41DB7 /* Project object */;
+}
