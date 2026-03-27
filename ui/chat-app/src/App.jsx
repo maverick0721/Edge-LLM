@@ -7,7 +7,6 @@ export default function App(){
   const [chats,setChats] = useState([])
   const [currentChat,setCurrentChat] = useState(null)
 
-  // load chats from browser
   useEffect(()=>{
 
     const saved = localStorage.getItem("edge_chats")
@@ -23,10 +22,22 @@ export default function App(){
 
   },[])
 
-  // save chats
   useEffect(()=>{
     localStorage.setItem("edge_chats",JSON.stringify(chats))
   },[chats])
+
+  useEffect(()=>{
+    if(chats.length === 0){
+      setCurrentChat(null)
+      return
+    }
+
+    const exists = chats.some(chat => chat.id === currentChat)
+
+    if(exists === false){
+      setCurrentChat(chats[0].id)
+    }
+  },[chats,currentChat])
 
   function newChat(){
 
@@ -36,33 +47,35 @@ export default function App(){
       messages: []
     }
 
-    // ADD chat instead of replacing
     setChats(prev => [chat,...prev])
-
     setCurrentChat(chat.id)
 
+    return chat
   }
 
-  function updateMessages(messages){
+  function updateMessages(messages, targetChatId = currentChat){
+    if(targetChatId === null){
+      return
+    }
 
     setChats(prev =>
       prev.map(chat => {
 
-        if(chat.id !== currentChat) return chat
+        if(chat.id === targetChatId){
+          let title = chat.title
 
-        let title = chat.title
+          if(messages.length > 0 && chat.title === "New Chat"){
+            title = messages[0].content.slice(0,30)
+          }
 
-        // auto title
-        if(messages.length > 0 && chat.title === "New Chat"){
-          title = messages[0].content.slice(0,30)
+          return {
+            ...chat,
+            messages,
+            title
+          }
         }
 
-        return {
-          ...chat,
-          messages,
-          title
-        }
-
+        return chat
       })
     )
 
@@ -85,6 +98,7 @@ export default function App(){
       <ChatLayout
         chat={current}
         updateMessages={updateMessages}
+        newChat={newChat}
       />
 
     </div>

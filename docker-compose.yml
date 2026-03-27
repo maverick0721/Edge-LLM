@@ -7,14 +7,14 @@ services:
       -m /models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
       --port 8080
     volumes:
-      - ../models:/models
+      - ./models:/models
     ports:
       - "8080:8080"
     restart: unless-stopped
 
   backend:
     build:
-      context: ..
+      context: .
       dockerfile: docker/Dockerfile
     command: python -m cli.cli
     environment:
@@ -44,7 +44,7 @@ services:
     image: node:18
     working_dir: /app
     volumes:
-      - ../ui/chat-app:/app
+      - ./ui/chat-app:/app
     command: sh -c "npm install && npm run dev -- --host"
     ports:
       - "5173:5173"

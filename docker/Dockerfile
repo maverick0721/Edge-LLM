@@ -2,8 +2,11 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY . /app
+ENV PYTHONPATH=/app/src
 
-RUN pip install fastapi uvicorn httpx
+COPY pyproject.toml README.md /app/
+COPY src /app/src
+
+RUN pip install --no-cache-dir fastapi uvicorn httpx
 
 CMD ["python", "-m", "cli.cli"]
