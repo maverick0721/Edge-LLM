@@ -1,0 +1,14 @@
+flowchart LR
+  UI[SwiftUI App]
+  UI -->|calls| Bridge[LlamaBridge (ObjC++)]
+  Bridge -->|links| XC[LLamaCpp.xcframework]
+  XC --> GGML[ggml backend]
+  XC --> Model[GGUF model file]
+  Model -->|tokens| UI
+
+  subgraph Build
+    Scripts[scripts/create_xcframework.sh]
+    Scripts --> CMake[CMake: build libllama.a + libggml.a]
+  end
+
+  Bridge -.shim.-> Shim[LlamaBridgeShim.c (demo shim)]

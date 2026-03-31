@@ -8,11 +8,11 @@ export default function ChatMessage({message}){
 
   return(
 
-    <div className={isUser ? "" : "bg-[#444654]"}>
+    <div>
 
-        <div className="max-w-3xl mx-auto px-6 py-6 flex gap-4">
+        <div className="max-w-3xl mx-auto px-6 py-4 flex gap-4 items-start">
 
-            <div className="w-8 h-8 rounded bg-gray-600 flex items-center justify-center text-xs">
+            <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-xs text-[var(--muted)]">
 
                 {isUser ? "U" : "AI"}
 
@@ -20,6 +20,7 @@ export default function ChatMessage({message}){
 
             <div className="flex-1 text-[15px] leading-7">
 
+              <div className={isUser ? "" : "message-card"}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -49,6 +50,7 @@ export default function ChatMessage({message}){
                   {message.content}
 
                 </ReactMarkdown>
+              </div>
 
             </div>
 

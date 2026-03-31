@@ -5,22 +5,8 @@ set -eu
 ROOT_DIR=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 PROFILE=${1:-${EDGE_LLM_INSTALL_PROFILE:-lite}}
 
-case "$PROFILE" in
-  lite)
-    REQUIREMENTS_FILE="requirements.txt"
-    ;;
-  standard)
-    REQUIREMENTS_FILE="requirements-standard.txt"
-    ;;
-  high-quality)
-    REQUIREMENTS_FILE="requirements-high-quality.txt"
-    ;;
-  *)
-    echo "Unknown install profile: $PROFILE"
-    echo "Use one of: lite, standard, high-quality"
-    exit 1
-    ;;
-esac
+# Use unified requirements.txt for all profiles (consolidated dependencies)
+REQUIREMENTS_FILE="requirements.txt"
 
 PYTHON_BIN=${PYTHON_BIN:-python3}
 VENV_DIR="$ROOT_DIR/.venv"

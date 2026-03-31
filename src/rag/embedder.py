@@ -3,7 +3,7 @@ try:
 except ImportError as exc:
     raise RuntimeError(
         "RAG support requires optional dependencies. "
-        "Install with `pip install -r requirements-standard.txt`."
+        "Install with `pip install -r requirements.txt`."
     ) from exc
 
 

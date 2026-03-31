@@ -30,3 +30,14 @@ models/*.pt
 models/*.bin
 vosk-model*
 
+# iOS local/generated artifacts
+ios/third_party/
+ios/Framework/
+ios/llama-ios-skeleton/.build/
+ios/llama-ios-skeleton/.derivedData/
+ios/llama-ios-skeleton/build/
+ios/llama-ios-skeleton/build_xcframework/
+ios/llama-ios-skeleton/.swiftpm/xcode/package.xcworkspace/
+ios/llama-ios-skeleton/.swiftpm/xcode/xcuserdata/
+ios/llama-ios-skeleton/.swiftpm/
+ios/llama-ios-skeleton/Framework/LLamaCpp/Source/llama_cpp/

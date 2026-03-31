@@ -2,16 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Midnight-blue palette (modern, cool, deep) */
+  --bg-1: #010617; /* deepest */
+  --bg-2: #041029; /* slightly lighter */
+  --panel: #061726; /* panels / surfaces */
+  --card: rgba(255,255,255,0.02);
+  --muted: #9fb4c9; /* cool-muted text */
+  --text: #e8f5ff; /* very light, slightly blue */
+  --accent: #4f7cff; /* primary blue accent */
+  --accent-2: #2ac1ff; /* secondary cyan accent */
+}
+
 body {
-  background: #343541;
+  background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
   font-family: ui-sans-serif, system-ui;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
+/* subtle custom utilities used by the UI components */
+.sidebar {
+  background: linear-gradient(180deg, rgba(47,64,98,0.03), rgba(6,23,38,0.035));
+  border-right: 1px solid rgba(255,255,255,0.02);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #666;
-  border-radius: 10px;
+.input-pill {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text);
 }
+
+.btn-accent {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  font-weight: 600;
+  border-radius: 9999px;
+  box-shadow: 0 10px 30px rgba(79,124,255,0.14);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-accent:hover{ transform: translateY(-1px); }
+
+.message-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(10,26,46,0.02));
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.04); border-radius: 10px; }
+
+.muted { color: var(--muted); }

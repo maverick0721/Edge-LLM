@@ -138,17 +138,17 @@ export default function ChatLayout({ chat, updateMessages, newChat }){
 
         <div className="flex-1 overflow-y-auto">
 
-            {connectionError ? (
-              <div className="m-4 rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-100">
-                {connectionError}
-              </div>
-            ) : null}
+                {connectionError ? (
+                  <div className="m-4 rounded-lg border border-red-600/40 bg-red-900/20 p-3 text-sm text-red-200">
+                    {connectionError}
+                  </div>
+                ) : null}
 
-            {chat === null || chat === undefined ? (
-              <div className="m-4 rounded-lg border border-gray-700 bg-[#2a2b32] p-4 text-sm text-gray-300">
-                Start a new chat to begin.
-              </div>
-            ) : null}
+                {chat === null || chat === undefined ? (
+                  <div className="m-4 rounded-lg border border-[rgba(255,255,255,0.03)] bg-[rgba(255,255,255,0.01)] p-4 text-sm text-[#9aa3b2]">
+                    Start a new chat to begin.
+                  </div>
+                ) : null}
 
             {messages.map((m,i)=>(
                 <ChatMessage key={i} message={m}/>

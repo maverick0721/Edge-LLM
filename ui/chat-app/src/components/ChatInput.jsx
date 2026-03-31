@@ -15,11 +15,10 @@ export default function ChatInput({ send }){
 
   return(
 
-
-    <div className="border-t border-gray-700 p-4">
-        <div className="max-w-3xl mx-auto flex">
+    <div className="border-t border-[rgba(255,255,255,0.04)] p-4">
+        <div className="max-w-3xl mx-auto flex gap-3 items-center">
             <input
-              className="flex-1 bg-[#40414f] p-3 rounded-l-lg outline-none"
+              className="flex-1 input-pill p-3 rounded-l-full outline-none placeholder:text-gray-400 text-sm"
               placeholder="Send a message..."
               value={text}
               onChange={(e)=>setText(e.target.value)}
@@ -31,7 +30,7 @@ export default function ChatInput({ send }){
             />
             <button
               onClick={submit}
-              className="bg-green-600 px-4 rounded-r-lg"
+              className="btn-accent px-5 py-2 rounded-r-full"
             >
               Send
             </button>

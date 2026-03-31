@@ -7,7 +7,7 @@ try:
 except ImportError as exc:
     raise RuntimeError(
         "Voice support requires optional dependencies. "
-        "Install with `pip install -r requirements-high-quality.txt`."
+        "Install with `pip install -r requirements.txt`."
     ) from exc
 
 class SpeechRecognizer:

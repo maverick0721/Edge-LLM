@@ -21,10 +21,10 @@ ENV EDGE_LLM_UI_DIST=/app/ui-dist
 ARG EDGE_LLM_PROFILE=lite
 ARG EDGE_LLM_REQUIREMENTS=requirements.txt
 
-COPY requirements.txt requirements-standard.txt requirements-high-quality.txt /app/
+COPY requirements.txt /app/
 RUN apt-get update \
     && if [ "$EDGE_LLM_PROFILE" = "high-quality" ]; then \
-        apt-get install -y --no-install-recommends espeak-ng libportaudio2; \
+        apt-get install -y --no-install-recommends espeak-ng libportaudio2 libatomic1; \
     fi \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir --upgrade pip \

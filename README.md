@@ -8,9 +8,8 @@ Edge-LLM is a local chat system built around two runtime services:
 
 That deployment shape is intentionally simpler than the old dev-only layout. On an edge device, you no longer need a separate always-on Vite dev server.
 
-The repo now also includes mobile-first local modes:
-- `mobile/ios/` for iPhone/iPad using Apple's on-device Foundation Models runtime
-- `mobile/android/` for Android using Google's on-device ML Kit Prompt API over AICore on supported devices
+The repo includes an iOS local GGUF runtime sample:
+- `ios/llama-ios-skeleton/` for iPhone/iPad using `llama.cpp` + GGUF via an XCFramework bridge
 
 ## Project Layout
 
@@ -37,8 +36,6 @@ Python install files:
 
 ```bash
 pip install -r requirements.txt
-pip install -r requirements-standard.txt
-pip install -r requirements-high-quality.txt
 ```
 
 Docker launch profiles:
@@ -61,7 +58,7 @@ For better quality on stronger hardware, replace the model path in the chosen pr
 
 ```bash
 python3 scripts/preflight.py
-./scripts/start_profile.sh lite
+docker compose --env-file profiles/lite.env up --build
 ```
 
 Then open:
@@ -72,6 +69,37 @@ http://localhost:8000
 
 That single URL now serves the built UI and talks to the backend on the same origin.
 
+## One-Command Demo Run
+
+For a complete start flow (preflight + compose up + smoke test), run:
+
+```bash
+./scripts/run_demo.sh
+```
+
+Optional examples:
+
+```bash
+./scripts/run_demo.sh --profile standard
+./scripts/run_demo.sh --profile high-quality --follow
+./scripts/run_demo.sh --down --profile lite
+```
+
+## One-Command iOS Run
+
+Run the iOS simulator demo in one command:
+
+```bash
+./scripts/run_ios_demo.sh
+```
+
+Optional examples:
+
+```bash
+./scripts/run_ios_demo.sh --sim-name "iPhone 17 Pro"
+./scripts/run_ios_demo.sh --sim-id 0DAAA551-21D2-4901-B9BC-C962A8338369
+```
+
 ## Preflight
 
 Run this before startup:
@@ -81,8 +109,8 @@ python3 scripts/preflight.py
 ```
 
 Required checks:
+
 - Docker
-- compose file
 - profile directory
 - models directory
 - selected GGUF model
@@ -90,6 +118,8 @@ Required checks:
 Helpful optional checks:
 - Node and npm for local UI rebuilds
 - built UI assets in `ui/chat-app/dist`
+ 
+If any required check is missing, fix that before starting the stack.
 
 ## Smoke Check
 
@@ -104,7 +134,6 @@ Expected output includes:
 - selected profile
 - selected model file
 - whether the UI is being served by the app
-- the resolved `llama_server_url`
 - required profile capabilities when applicable
 - a non-empty sample generation
 
@@ -198,11 +227,24 @@ VITE_EDGE_LLM_PORT=8000 npm run dev -- --host
 
 ## Notes
 
-- `requirements.txt` is now intentionally slim so low-power devices are not forced to install the whole ML stack.
-- Optional features are separated into `standard` and `high-quality` tiers instead of being required everywhere.
-- The container build now installs the profile-specific requirements file so `standard` and `high-quality` can expose their extra capabilities at runtime.
+- `requirements.txt` is now a unified dependency file that includes core + optional packages.
+- Runtime tiers still differ by profile settings and required capabilities, not by separate requirements files.
+- The container build installs `requirements.txt` and applies profile-specific runtime flags/capability checks.
 - The main app now serves the production UI directly, so runtime deployment no longer depends on a separate Vite dev server.
 - The compose profiles let you tune context size, threads, generation length, and model file per device class.
 - Better answer quality comes mostly from the GGUF model choice, not from the Python tier alone.
-- iPhone/iPad local mode is separate from the GGUF Docker stack and currently uses Apple's on-device Foundation Models runtime instead.
-- Android local mode is separate from the GGUF Docker stack and currently uses Google's ML Kit Prompt API over AICore instead.
+- iPhone/iPad local mode is available in `ios/llama-ios-skeleton` and is separate from the Docker stack.
+
+## Validation Script
+
+Run all profile smoke checks in sequence:
+
+```bash
+./scripts/validate_profiles.sh
+```
+
+Run a subset:
+
+```bash
+./scripts/validate_profiles.sh lite standard
+```

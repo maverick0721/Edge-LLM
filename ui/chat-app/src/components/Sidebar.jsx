@@ -19,7 +19,7 @@ export default function Sidebar({
 
   return(
 
-    <div className="w-[260px] bg-[#202123] flex flex-col">
+    <div className="w-[260px] sidebar flex flex-col text-sm">
 
       {/* new chat button */}
 
@@ -27,7 +27,7 @@ export default function Sidebar({
       <div className="p-3">
         <button
           onClick={newChat}
-          className="flex items-center gap-2 border border-gray-600 w-full p-2 rounded hover:bg-gray-700"
+          className="flex items-center gap-2 w-full p-2 rounded hover:bg-[rgba(255,255,255,0.03)] transition-colors"
         >
           <Plus size={16}/>
           New Chat
@@ -38,7 +38,7 @@ export default function Sidebar({
 
 
       <div className="px-3 pb-2">
-        <div className="flex items-center gap-2 bg-[#2a2b32] p-2 rounded">
+        <div className="flex items-center gap-2 bg-[rgba(255,255,255,0.02)] p-2 rounded">
           <Search size={14}/>
           <input
             className="bg-transparent outline-none text-sm flex-1"
@@ -57,7 +57,7 @@ export default function Sidebar({
           <div
             key={chat.id}
             className={`flex items-center justify-between p-2 rounded cursor-pointer text-sm ${
-              chat.id === currentChat ? "bg-[#2a2b32]" : "hover:bg-[#2a2b32]"
+              chat.id === currentChat ? "bg-[rgba(255,255,255,0.03)]" : "hover:bg-[rgba(255,255,255,0.02)]"
             }`}
             onClick={()=>setCurrentChat(chat.id)}
           >

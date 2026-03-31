@@ -1,6 +1,0 @@
--r requirements-standard.txt
-
-# High-quality tier adds local voice I/O on top of the standard stack.
-pyttsx3==2.99
-sounddevice==0.5.5
-vosk==0.3.44
