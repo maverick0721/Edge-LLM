@@ -1,83 +1,49 @@
 # Edge-LLM
 
-### Local AI Chat Stack for Edge-Class Hardware
+![Platform](https://img.shields.io/badge/platform-Edge%20%7C%20iOS-0A66C2?style=flat-square)
+![Backend](https://img.shields.io/badge/backend-FastAPI-009688?style=flat-square)
+![Model Runtime](https://img.shields.io/badge/model-llama.cpp-111827?style=flat-square)
+![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-646CFF?style=flat-square)
+![iOS](https://img.shields.io/badge/iOS-GGUF%20on--device-000000?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-22C55E?style=flat-square)
 
-Edge-LLM is a local chat system built around two runtime services:
-- `llama.cpp` serving a local GGUF model
-- one FastAPI app that serves both the API/WebSocket backend and the built React UI
+## Problem
 
-That deployment shape is intentionally simpler than the old dev-only layout. On an edge device, you no longer need a separate always-on Vite dev server.
+Running useful LLM features locally is usually fragmented:
 
-The repo includes an iOS local GGUF runtime sample:
-- `ios/llama-ios-skeleton/` for iPhone/iPad using `llama.cpp` + GGUF via an XCFramework bridge
+- multiple always-on services
+- cloud dependency for real-time UX
+- separate mobile vs edge paths
+- hard-to-reproduce setup and demos
 
-## Project Layout
+## Solution
 
-```text
-Edge-LLM/
-├── docker-compose.yml
-├── docker/
-├── models/
-├── profiles/
-├── scripts/
-├── src/
-└── ui/chat-app/
-```
+Edge-LLM provides one local-first stack for both edge devices and iOS:
 
-## Runtime Tiers
+- Docker runtime: `llama.cpp` + FastAPI + built React UI
+- iOS runtime: SwiftUI + C bridge + `llama.cpp` XCFramework + GGUF
+- one-command demo scripts for both paths
+- profile-based capability scaling: `lite`, `standard`, `high-quality`
 
-The repo now ships with three edge-oriented tiers:
+## Architecture
 
-- `lite`: smallest Python/runtime footprint, best for CPU-only and lower-memory devices
-- `standard`: adds local RAG and heavier ML dependencies
-- `high-quality`: adds voice I/O on top of the standard tier
+### End-to-End System
 
-Python install files:
+![End-to-End System](docs/diagrams/architecture.svg)
 
-```bash
-pip install -r requirements.txt
-```
+### Request Lifecycle (Edge Path)
 
-Docker launch profiles:
+![Request Lifecycle](docs/diagrams/request-lifecycle.svg)
 
-- `profiles/lite.env`
-- `profiles/standard.env`
-- `profiles/high-quality.env`
+## Demo Command
 
-The shipped example model is still:
-
-- `models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`
-
-For better quality on stronger hardware, replace the model path in the chosen profile with a larger GGUF.
-
-## Quick Start
-
-1. Place a GGUF model in `models/`
-2. Run the preflight check
-3. Start the profile that matches the target device
-
-```bash
-python3 scripts/preflight.py
-docker compose --env-file profiles/lite.env up --build
-```
-
-Then open:
-
-```text
-http://localhost:8000
-```
-
-That single URL now serves the built UI and talks to the backend on the same origin.
-
-## One-Command Demo Run
-
-For a complete start flow (preflight + compose up + smoke test), run:
+### Edge (full start flow)
 
 ```bash
 ./scripts/run_demo.sh
 ```
 
-Optional examples:
+Options:
 
 ```bash
 ./scripts/run_demo.sh --profile standard
@@ -85,166 +51,106 @@ Optional examples:
 ./scripts/run_demo.sh --down --profile lite
 ```
 
-## One-Command iOS Run
-
-Run the iOS simulator demo in one command:
+### iOS Simulator (full run flow)
 
 ```bash
 ./scripts/run_ios_demo.sh
 ```
 
-Optional examples:
+Target a specific simulator:
 
 ```bash
 ./scripts/run_ios_demo.sh --sim-name "iPhone 17 Pro"
 ./scripts/run_ios_demo.sh --sim-id 0DAAA551-21D2-4901-B9BC-C962A8338369
 ```
 
-## Preflight
+## Results
 
-Run this before startup:
+Current project state after full validation:
 
-```bash
-python3 scripts/preflight.py
-```
+- Docker profile validation passes for `lite`, `standard`, and `high-quality`
+- high-quality voice capability is fixed and passes smoke requirements
+- iOS `llama-ios-skeleton` builds and tests pass
+- simulator build path is operational through one-command runner
 
-Required checks:
-
-- Docker
-- profile directory
-- models directory
-- selected GGUF model
-
-Helpful optional checks:
-- Node and npm for local UI rebuilds
-- built UI assets in `ui/chat-app/dist`
- 
-If any required check is missing, fix that before starting the stack.
-
-## Smoke Check
-
-After the app starts, run:
-
-```bash
-python3 scripts/smoke_test.py
-```
-
-Expected output includes:
-- `backend ok`
-- selected profile
-- selected model file
-- whether the UI is being served by the app
-- required profile capabilities when applicable
-- a non-empty sample generation
-
-## Services
-
-- `llama`: serves the local GGUF model on port `8080`
-- `app`: serves the built React UI, `/generate`, `/health`, `/api/info`, and WebSocket `/chat` on port `8000`
-
-## Production-Oriented Docker Flow
-
-Start the default low-footprint tier:
-
-```bash
-docker compose --env-file profiles/lite.env up --build
-```
-
-Start the balanced tier:
-
-```bash
-docker compose --env-file profiles/standard.env up --build
-```
-
-Start the higher-quality tier:
-
-```bash
-docker compose --env-file profiles/high-quality.env up --build
-```
-
-You can also use the helper script:
-
-```bash
-./scripts/start_profile.sh standard
-```
-
-## Install Script
-
-The old Ubuntu-specific installer was replaced with a project-local setup flow:
-
-```bash
-./install.sh lite
-./install.sh standard
-./install.sh high-quality
-```
-
-That script:
-- creates `.venv` if needed
-- installs the selected Python tier
-- builds the production UI
-- prepares `models/`
-
-## Manual Start
-
-Start the model server:
-
-```bash
-docker compose --env-file profiles/lite.env up llama
-```
-
-Start the backend manually against an already-running llama server:
-
-```bash
-EDGE_LLM_PROFILE=lite \
-EDGE_LLM_MODEL_FILE=tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf \
-EDGE_LLM_UI_DIST=ui/chat-app/dist \
-LLAMA_SERVER_URL=http://127.0.0.1:8080/completion \
-PYTHONPATH=src python3 -m cli.cli
-```
-
-Build the UI manually if needed:
-
-```bash
-cd ui/chat-app
-npm install
-npm run build
-```
-
-For frontend-only development, you can still use:
-
-```bash
-cd ui/chat-app
-VITE_EDGE_LLM_PORT=8000 npm run dev -- --host
-```
-
-## API Endpoints
-
-- `/`: built UI if available, otherwise runtime metadata JSON
-- `/api/info`: runtime metadata including profile and selected model file
-- `/health`: backend plus llama reachability status
-- `/generate`: HTTP generation endpoint
-- `/chat`: WebSocket streaming chat endpoint
-
-## Notes
-
-- `requirements.txt` is now a unified dependency file that includes core + optional packages.
-- Runtime tiers still differ by profile settings and required capabilities, not by separate requirements files.
-- The container build installs `requirements.txt` and applies profile-specific runtime flags/capability checks.
-- The main app now serves the production UI directly, so runtime deployment no longer depends on a separate Vite dev server.
-- The compose profiles let you tune context size, threads, generation length, and model file per device class.
-- Better answer quality comes mostly from the GGUF model choice, not from the Python tier alone.
-- iPhone/iPad local mode is available in `ios/llama-ios-skeleton` and is separate from the Docker stack.
-
-## Validation Script
-
-Run all profile smoke checks in sequence:
+Core verification commands:
 
 ```bash
 ./scripts/validate_profiles.sh
+python3 scripts/preflight.py
+python3 scripts/smoke_test.py
 ```
 
-Run a subset:
+## Why this matters
+
+- Demonstrates strong local AI systems engineering, not just model prompting
+- Shows end-to-end ownership: runtime, API, UI, iOS, reliability scripts
+- Recruiter-friendly proof: reproducible one-command demos and clear architecture
+- Practical deployment value for privacy-sensitive or low-connectivity environments
+
+## Appendix
+
+### Runtime tiers
+
+- `lite`: minimal footprint for lower-resource CPUs
+- `standard`: adds local RAG and heavier ML dependencies
+- `high-quality`: adds voice I/O on top of `standard`
+
+Profiles:
+
+- `profiles/lite.env`
+- `profiles/standard.env`
+- `profiles/high-quality.env`
+
+Default sample model:
+
+- `models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`
+
+### iOS setup details (manual path)
 
 ```bash
-./scripts/validate_profiles.sh lite standard
+cd ios/llama-ios-skeleton
+bash scripts/fetch_build_llama.sh
+bash scripts/create_xcframework.sh
+bash scripts/copy_xcframework_to_package.sh
+bash scripts/sync_package_dependency.sh
+bash scripts/open_in_xcode.sh
 ```
+
+In Xcode:
+
+1. Select scheme `LLamaDemo`
+2. Select simulator or device
+3. Build/Run (`Cmd+B`, `Cmd+R`)
+4. Pick and load a valid generative `.gguf`
+
+### Services and endpoints
+
+- `llama` service on `:8080`
+- `app` service on `:8000`
+
+Endpoints:
+
+- `/`
+- `/api/info`
+- `/health`
+- `/generate`
+- `/chat`
+
+### Troubleshooting
+
+If smoke fails on first attempt, retry after warm-up (already built into scripts).
+
+If iOS build fails on symbols/headers, rebuild XCFramework:
+
+```bash
+cd ios/llama-ios-skeleton
+bash scripts/create_xcframework.sh
+bash scripts/copy_xcframework_to_package.sh
+```
+
+Use generative chat/instruct GGUF models, not vocab-only files.
+
+## License
+
+MIT

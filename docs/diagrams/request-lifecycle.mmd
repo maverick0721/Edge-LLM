@@ -1,0 +1,12 @@
+sequenceDiagram
+  participant U as User
+  participant W as Web UI
+  participant A as FastAPI
+  participant L as llama.cpp
+
+  U->>W: Submit prompt
+  W->>A: /chat (WebSocket) or /generate (HTTP)
+  A->>L: Completion request
+  L-->>A: Generated tokens
+  A-->>W: Streamed response
+  W-->>U: Render final answer

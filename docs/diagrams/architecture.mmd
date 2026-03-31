@@ -1,0 +1,25 @@
+flowchart TB
+  subgraph EdgeDocker[Edge Runtime - Docker]
+    Browser[Browser UI]
+    API[FastAPI App:8000]
+    Llama[llama.cpp Server:8080]
+    RAG[RAG Components]
+    Voice[Voice I/O]
+    GGUF[GGUF Model]
+
+    Browser --> API
+    API --> Llama
+    API --> RAG
+    API --> Voice
+    Llama --> GGUF
+  end
+
+  subgraph iOSLocal[iOS Runtime - On Device]
+    SwiftUI[SwiftUI App]
+    Client[LlamaClient.swift]
+    Shim[LlamaBridgeShim.c]
+    XC[LLamaCpp.xcframework]
+    iOSModel[GGUF Model]
+
+    SwiftUI --> Client --> Shim --> XC --> iOSModel
+  end
